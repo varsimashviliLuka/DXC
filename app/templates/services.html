@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ t.services_title }} – DXC.GE{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <span class="section-tag">{{ t.services_tag }}</span>
+    <h1 class="page-hero-title">{{ t.services_title }}</h1>
+    <p>{{ t.services_sub }}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="services-grid">
+      {% set items = [
+        (t.svc_cctv_title,     "Full HD and IP camera systems for indoor/outdoor surveillance. We handle cabling, NVR/DVR setup, and remote viewing."),
+        (t.svc_lock_title,     "Keypad, RFID card, fingerprint and remote-controlled access systems for doors and gates."),
+        (t.svc_chip_title,     "Fast same-day duplication of key chips, proximity cards, key fobs, and transponder keys."),
+        (t.svc_network_title,  "Structured cabling, Wi-Fi access points, and complete network infrastructure setup."),
+        (t.svc_alarm_title,    "Motion detectors, door/window sensors, and integration with monitoring centres."),
+        (t.svc_intercom_title, "Audio and video intercom systems for apartments, offices, and private homes.")
+      ] %}
+      {% for title, desc in items %}
+      <div class="service-card">
+        <h3 class="service-title">{{ title }}</h3>
+        <p class="service-desc">{{ desc }}</p>
+        <a href="{{ url_for('contact.contact') }}" class="service-link">{{ t.service_learn }}</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

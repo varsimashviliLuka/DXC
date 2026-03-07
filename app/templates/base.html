@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="DXC.GE – Digital X Control. Professional CCTV, electric locks, chip duplication and security services in Georgia."/>
+  <title>{% block title %}DXC.GE – Digital X Control{% endblock %}</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicon.svg') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+<!-- ── NAVBAR ───────────────────────────────────────────────── -->
+<header class="navbar">
+  <div class="container navbar-inner">
+
+    <a href="{{ url_for('main.index') }}" class="navbar-logo">
+      <!-- Concept 2: equal-weight DXC · dot + bar accent on X · light .ge -->
+      <svg viewBox="0 0 320 52" height="44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="nb-xaccent" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#50caff"/>
+            <stop offset="100%" stop-color="#1a8fff"/>
+          </linearGradient>
+        </defs>
+        <!-- DXC letters -->
+        <text x="0" y="40"
+              font-family="Outfit, sans-serif"
+              font-size="42" font-weight="700"
+              letter-spacing="1"
+              fill="#ffffff">DXC</text>
+        <!-- Blue dot above X -->
+        <circle cx="55" cy="5" r="4" fill="url(#nb-xaccent)"/>
+        <!-- Blue bar under X -->
+        <rect x="38" y="44" width="32" height="2.5" rx="1.5" fill="url(#nb-xaccent)"/>
+        <!-- .ge — light weight, blue -->
+        <text x="116" y="40"
+              font-family="Outfit, sans-serif"
+              font-size="42" font-weight="200"
+              fill="#4ab8ff">.ge</text>
+      </svg>
+    </a>
+
+    <nav class="navbar-links">
+      <a href="{{ url_for('main.index') }}"        class="nav-link">{{ t.nav_home }}</a>
+      <a href="{{ url_for('services.services') }}" class="nav-link">{{ t.nav_services }}</a>
+      <a href="{{ url_for('main.about') }}"        class="nav-link">{{ t.nav_about }}</a>
+      <a href="{{ url_for('contact.contact') }}"   class="nav-link nav-cta">{{ t.nav_contact }}</a>
+      <a href="{{ url_for('set_lang', lang=t.lang_other_code) }}" class="lang-btn">
+        {{ t.lang_other }}
+      </a>
+    </nav>
+
+    <div class="navbar-right-mobile">
+      <a href="{{ url_for('set_lang', lang=t.lang_other_code) }}" class="lang-btn lang-btn--mobile">
+        {{ t.lang_other }}
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="{{ url_for('main.index') }}">{{ t.nav_home }}</a>
+  <a href="{{ url_for('services.services') }}">{{ t.nav_services }}</a>
+  <a href="{{ url_for('main.about') }}">{{ t.nav_about }}</a>
+  <a href="{{ url_for('contact.contact') }}">{{ t.nav_contact }}</a>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo-text">DXC<span>.GE</span></span>
+      <p>{{ t.footer_desc }}</p>
+    </div>
+    <div class="footer-links">
+      <h4>{{ t.footer_services }}</h4>
+      <a href="{{ url_for('services.cctv') }}">{{ t.svc_cctv_title }}</a>
+      <a href="{{ url_for('services.locks') }}">{{ t.svc_lock_title }}</a>
+      <a href="{{ url_for('services.chips') }}">{{ t.svc_chip_title }}</a>
+    </div>
+    <div class="footer-links">
+      <h4>{{ t.footer_company }}</h4>
+      <a href="{{ url_for('main.about') }}">{{ t.footer_about }}</a>
+      <a href="{{ url_for('contact.contact') }}">{{ t.footer_contact }}</a>
+    </div>
+    <div class="footer-contact">
+      <h4>{{ t.footer_contact }}</h4>
+      <p>📧 info@dxc.ge</p>
+      <p>📞 +995 XXX XXX XXX</p>
+      <p>📍 Tbilisi, Georgia</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>{{ t.footer_copy }}</p>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
