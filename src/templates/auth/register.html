@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="register-container">
+
+    <h1>Register</h1>
+
+    <form id="registerForm">
+
+        <input type="email"
+               id="email"
+               placeholder="Email"
+               required>
+
+        <input type="text"
+               id="phone_number"
+               placeholder="Phone Number"
+               required>
+
+        <input type="text"
+               id="personal_number"
+               placeholder="Personal Number"
+               required>
+
+        <input type="password"
+               id="password"
+               placeholder="Password"
+               required>
+
+        <input type="password"
+               id="passwordRepeat"
+               placeholder="Repeat Password"
+               required>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <p id="message"></p>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/static/js/auth/register.js"></script>
+{% endblock %}
