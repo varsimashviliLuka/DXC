@@ -86,7 +86,7 @@ class AuthorizationApi(Resource):
                 "refresh_token",
                 refresh_token,
                 httponly=True,
-                secure=True,      # True in production (HTTPS)
+                secure=False,      # True in production (HTTPS)
                 samesite="Strict",
                 path="/api/auth/refresh",
                 max_age=30 * 24 * 60 * 60)
@@ -96,18 +96,54 @@ class AuthorizationApi(Resource):
         # If the password is incorrect
         else:
             return {"error": "შეყვანილი პაროლი ან ელ.ფოსტა არასწორია."}, 400
+        
 
 @auth_ns.route('/refresh')
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class AccessTokenRefreshApi(Resource):
-    @jwt_required(refresh=True)
+    @jwt_required(refresh=True, locations=["cookies"])
     @auth_ns.doc(security='JsonWebToken')
     def post(self):
         '''JWT ტოკენის დარეფრეშება'''
         identity = get_jwt_identity()
         access_token = create_access_token(identity=identity)
-        response = {
+        refresh_token = create_refresh_token(identity=identity)
+        response = jsonify({
             "access_token": access_token
-        }
+        })
+
+        response.set_cookie(
+            "refresh_token",
+            refresh_token,
+            httponly=True,
+            secure=False,
+            samesite="Strict",
+            path="/api/auth/refresh",
+            max_age=30 * 24 * 60 * 60
+        )
 
         return response
+    
+@auth_ns.route('/check')
+@auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
+class CheckAuthApi(Resource):
+    @jwt_required()
+    def get(self):
+        return {"message": "მომხმარებელი ავტორიზებულია."}, 200
+
+@auth_ns.route('/logout')
+@auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
+class LogoutApi(Resource):
+
+    def post(self):
+
+        response = jsonify({
+            "message": "Logged out"
+        })
+
+        response.delete_cookie(
+            "refresh_token",
+            path="/api/auth/refresh"
+        )
+
+        return response    

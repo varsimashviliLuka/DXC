@@ -13,13 +13,7 @@
 <body>
 
     <!-- Navigation -->
-    <header>
-        <nav>
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            <a href="{{ url_for('auth.register') }}">Register</a>
-        </nav>
-    </header>
+{% include "navbar/navbar.html" %}
 
     <!-- Main Content -->
     <main>

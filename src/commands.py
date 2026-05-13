@@ -37,4 +37,14 @@ def populate_db():
 @with_appcontext
 def insert_db():
     # Insert-ით რაც გინდა ის ქენი
+    test_user = User (
+        email="testmail@gmail.com",
+        password="LUKAluka123",
+        phone_number="592159194",
+        personal_number="01124096418",
+        identification_number=random.randint(100000, 999999),
+        role="user"
+    )
+
+    test_user.create()
     pass

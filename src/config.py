@@ -21,12 +21,16 @@ class Config(object):
 
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'app.sqlite3'}")
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "default_jwt_secret_key")
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=12)
     JWT_COOKIE_CSRF_PROTECT = True
-    JWT_TOKEN_LOCATION = ["headers"]
-    JWT_COOKIE_SECURE = True
+    JWT_TOKEN_LOCATION = ["headers","cookies"]
+    JWT_COOKIE_SECURE = False # True in production (HTTPS)
     JWT_COOKIE_SAMESITE = "Strict"
+    JWT_COOKIE_CSRF_PROTECT = False
+    JWT_ACCESS_COOKIE_PATH = "/"
+    JWT_REFRESH_COOKIE_PATH = "/api/auth/refresh"
+    JWT_REFRESH_COOKIE_NAME = "refresh_token"
 
     AUTHORIZATION = {
         "JsonWebToken": {
@@ -54,4 +58,5 @@ class TestConfig(Config):
     WTF_CSRF_ENABLED = False
     DEBUG = True
     # Separate SQLite DB for tests
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{BASE_DIR / 'test.sqlite3'}"

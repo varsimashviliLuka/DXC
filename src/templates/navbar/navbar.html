@@ -1,0 +1,20 @@
+
+
+<header>
+    <nav>
+
+        <a href="{{ url_for('index') }}">Home</a>
+
+        <div id="authLinks">
+            <a id="loginLink" href="{{ url_for('auth.login') }}">Login</a>
+            <a id="registerLink" href="{{ url_for('auth.register') }}">Register</a>
+        </div>
+
+        <div id="userSection" style="display: none;">
+            <button id="logoutBtn">Logout</button>
+        </div>
+
+    </nav>
+</header>
+<script src="{{ url_for('static', filename='js/auth/logout.js') }}"></script>
+<script src="{{ url_for('static', filename='js/navbar/navbar.js') }}"></script>
