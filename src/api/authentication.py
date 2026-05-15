@@ -41,7 +41,7 @@ class RegistrationApi(Resource):
         if len(args["phone_number"]) != 9 or not args["phone_number"].isdigit():
             return {"error": "ტელეფონის ნომერი უნდა შედგებოდეს 9 ციფრისგან."}, 400
         while True:
-            identification_number = random.randint(100000, 999999)
+            identification_number = str(random.randint(100000, 999999))
             if not User.query.filter_by(identification_number=identification_number).first():
                 break
 
@@ -146,4 +146,16 @@ class LogoutApi(Resource):
             path="/api/auth/refresh"
         )
 
-        return response    
+        return response
+    
+@auth_ns.route('/isAdmin')
+@auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
+class IsAdminApi(Resource):
+    @jwt_required()
+    def get(self):
+        identity = get_jwt_identity()
+        user = User.query.filter_by(uuid=identity).first()
+        if user and user.role == 'admin':
+            return {"is_admin": True}, 200
+        else:
+            return {"is_admin": False}, 200

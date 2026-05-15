@@ -1,7 +1,3 @@
-// static/js/auth/login.js
-
-// static/js/auth/check-auth.js
-
 document.addEventListener("DOMContentLoaded", async () => {
 
     const loggedIn = await isAuthenticated();

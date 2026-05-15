@@ -1,3 +1,7 @@
+if (window.authUser){
+    console.log("User is authenticated:", window.authUser);
+}
+
 const getUserButton =
     document.getElementById("getUserButton");
 
@@ -6,37 +10,10 @@ const userData =
 
 getUserButton.addEventListener("click", async () => {
 
-    try {
-
-        const response = await sendRequest(
-            "/api/user/myuser",
-            {
-                method: "GET"
-            }
-        );
-
-        const data = await response.json();
-
-        console.log(data);
-
-        if (response.ok) {
-
-            userData.textContent =
-                JSON.stringify(data, null, 4);
-
-        } else {
-
-            userData.textContent =
-                data.error || "Failed to fetch user.";
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        userData.textContent =
-            "Something went wrong.";
-
-        window.location.href = "/login";
+    if (window.authUser){
+        userData.textContent = JSON.stringify(window.authUser, null, 4);
+    }else{
+        userData.textContent = "No authenticated user.";
     }
+
 });

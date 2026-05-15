@@ -16,5 +16,13 @@ class BalanceTransaction(db.Model, BaseModel):
 
     user = db.relationship('User', backref=db.backref('balance_transactions', lazy=True))
 
+    def generateJson(self):
+        result = {'id': self.id,
+                  'user_id': self.user_id,
+                  'operator': self.operator,
+                  'amount': self.amount,
+                  'timestamp': f'{self.timestamp}'}
+        return result
+
     def __repr__(self):
         return f'<BalanceTransaction {self.id} - User ID: {self.user_id}, Operator: {self.operator}, Amount: {self.amount}>'

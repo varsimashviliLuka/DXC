@@ -78,3 +78,17 @@ async function isAuthenticated() {
         return false;
     }
 }
+
+async function isUserAdmin() {
+    try {
+        const response = await sendRequest(
+            "/api/auth/isAdmin"
+        );
+
+        const data = await response.json();
+        return data.is_admin === true;
+    } catch (error) {
+        console.error("Error checking admin status:", error);
+        return false;
+    }
+}

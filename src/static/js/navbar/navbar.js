@@ -1,52 +1,89 @@
-const loginLink = document.getElementById("loginLink");
-const registerLink = document.getElementById("registerLink");
+const navbarAuth =
+    document.getElementById("navbarAuth");
 
-const userSection = document.getElementById("userSection");
-const logoutBtn = document.getElementById("logoutBtn");
+const guestSection =
+    document.getElementById("guestSection");
 
-async function updateNavbar() {
+const userSection =
+    document.getElementById("userSection");
+
+
+const adminLink =
+    document.getElementById("adminLink");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+
+// Global user state
+window.authUser = null;
+
+
+async function initializeNavbar() {
 
     try {
 
-        // Try to fetch current user
-        const response = await sendRequest("/api/user/myuser", {
-            method: "GET"
-        });
+        const response = await sendRequest(
+            "/api/user/myuser",
+            {
+                method: "GET"
+            }
+        );
 
-        if (response.ok) {
+        if (!response.ok) {
+            throw new Error("Unauthorized");
+        }
 
-            const data = await response.json();
+        const data = await response.json();
 
-            console.log("Logged in user:", data);
+        const user = data.user;
 
-            // Hide login/register
-            loginLink.style.display = "none";
-            registerLink.style.display = "none";
+        // Save globally
+        window.authUser = user;
+        console.log("Authenticated user:", user.role);
 
-            // Show logout
-            userSection.style.display = "block";
+        // Show authenticated UI
+        guestSection.style.display = "none";
+
+        userSection.style.display = "flex";
+
+        // ROLE-BASED UI
+        if (user.role === "admin") {
+
+            adminLink.style.display = "inline";
 
         } else {
 
-            throw new Error("Not logged in");
+            adminLink.style.display = "none";
         }
 
     } catch (error) {
 
-        // Not authenticated
+        // Guest UI
+        window.authUser = null;
 
-        loginLink.style.display = "inline";
-        registerLink.style.display = "inline";
+        guestSection.style.display = "flex";
 
         userSection.style.display = "none";
     }
+
+    // Reveal navbar after auth check
+    navbarAuth.style.display = "flex";
 }
 
-// Run on page load
-document.addEventListener("DOMContentLoaded", updateNavbar);
 
-// Logout handler
-logoutBtn.addEventListener("click", async () => {
+// Initialize navbar
+document.addEventListener(
+    "DOMContentLoaded",
+    initializeNavbar
+);
 
-    await logout(); // your existing logout function
-});
+
+// Logout
+logoutBtn?.addEventListener(
+    "click",
+    async () => {
+
+        await logout();
+    }
+);

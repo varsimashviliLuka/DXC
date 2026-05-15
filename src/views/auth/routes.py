@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint
-from src.config import Config
+
 
 auth_blueprint = Blueprint(
     "auth",

@@ -170,5 +170,24 @@ class MyUserApi(Resource):
                 'personal_number': current_user.personal_number, 
                 'identification_number': current_user.identification_number,
                 'balance': current_user.balance,
-                'active': current_user.active}
+                'active': current_user.active,
+                'role': current_user.role}
         return {'user': data}, 200
+    
+@user_ns.route('/user/myuser/transactions')
+@user_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
+class MyUserTransactionsApi(Resource):
+    @jwt_required()
+    @user_ns.doc(security='JsonWebToken')
+    def get(self):
+        '''ავტორიზებული მომხმარებლის ბალანსის ტრანზაქციების მიღება'''
+
+        identity = get_jwt_identity()
+        current_user = User.query.filter_by(uuid=identity).first()
+        if not current_user:
+            return {"error": "მომხმარებელი ვერ მოიძებნა."}, 404
+        transactions = BalanceTransaction.query.filter_by(user_id=current_user.id).all()
+        if not transactions:
+            return {"error": "ტრანზაქციები ვერ მოიძებნა."}, 404
+        transactions_data = [transaction.generateJson() for transaction in transactions]
+        return {'transactions': transactions_data}, 200

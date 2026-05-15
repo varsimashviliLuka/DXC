@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}User Panel{% endblock %}
+
+{% block content %}
+
+<div class="user-panel-container" id="user-panel-container" style="display: none;">
+
+    <h1>User Panel</h1>
+
+    <!-- USER INFO -->
+    <div class="user-info">
+
+        <h2>My Information</h2>
+
+        <p>
+            <strong>Email:</strong>
+            <span id="userEmail"></span>
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            <span id="userPhone"></span>
+        </p>
+
+        <p>
+            <strong>Personal Number:</strong>
+            <span id="userPersonalNumber"></span>
+        </p>
+
+        <p>
+            <strong>Balance:</strong>
+            <span id="userBalance"></span>
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            <span id="userStatus"></span>
+        </p>
+
+    </div>
+
+    <hr>
+
+    <!-- TRANSACTIONS -->
+    <div class="transactions-section">
+
+        <h2>Balance Transactions</h2>
+
+        <div id="transactionsList"></div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/user/user.js') }}"></script>
+{% endblock %}

@@ -6,7 +6,7 @@ import os
 from src.config import Config
 from src.api import api
 from src.extensions import db, api, migrate, jwt, scheduler
-from src.views import auth_blueprint
+from src.views import auth_blueprint, admin_blueprint, user_blueprint
 from src.commands import init_db, populate_db, insert_db
 
 from src.models import User
@@ -15,7 +15,7 @@ from src.logging_config import get_logger
 
 logger = get_logger('app')
 
-BLUEPRINTS = [auth_blueprint]
+BLUEPRINTS = [auth_blueprint, admin_blueprint, user_blueprint]
 COMMANDS = [init_db, populate_db, insert_db]
 
 def create_app(config=Config):
