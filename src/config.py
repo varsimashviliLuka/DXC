@@ -54,8 +54,6 @@ class Config(object):
     CURRENCY = os.getenv("CURRENCY", "default_currency")
 
 class TestConfig(Config):
-    TESTING = True
-    WTF_CSRF_ENABLED = False
     DEBUG = True
     # Separate SQLite DB for tests
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)
