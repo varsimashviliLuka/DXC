@@ -26,7 +26,6 @@ document.addEventListener(
 
      if (!loggedIn) {
 
-        // User already logged in
         window.location.href = "/";
     }else{
         userPanelContainer = document.getElementById("user-panel-container");

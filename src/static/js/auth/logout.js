@@ -14,5 +14,5 @@ async function logout() {
     localStorage.removeItem("access_token");
 
     // redirect to login page
-    window.location.href = "/login";
+    window.location.reload();
 }
