@@ -2,26 +2,59 @@
 
 {% block title %}Login{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/auth.css') }}">
+{% endblock %}
+
 {% block content %}
 
-<div class="login-container">
-    <h1>Login</h1>
+<div class="auth-page">
+    <div class="login-container">
 
-    <form id="loginForm">
-        <input type="text"
-               id="email_or_phone_number"
-               placeholder="Email or Phone"
-               required>
+        <!-- Brand mark -->
+        <div class="auth-brand">
+            <div class="auth-brand-mark">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6L12 2z"/>
+                </svg>
+            </div>
+            <span class="auth-brand-name">DXC</span>
+        </div>
 
-        <input type="password"
-               id="password"
-               placeholder="Password"
-               required>
+        <h1>Sign In</h1>
+        <p class="auth-subtitle">Access your security control panel</p>
 
-        <button type="submit">Login</button>
-    </form>
+        <form id="loginForm">
 
-    <p id="message"></p>
+            <div class="input-wrap">
+                <label for="email_or_phone_number">Email or Phone</label>
+                <input type="text"
+                       id="email_or_phone_number"
+                       placeholder="you@example.com"
+                       autocomplete="username"
+                       required>
+            </div>
+
+            <div class="input-wrap">
+                <label for="password">Password</label>
+                <input type="password"
+                       id="password"
+                       placeholder="••••••••"
+                       autocomplete="current-password"
+                       required>
+            </div>
+
+            <button type="submit">Sign In</button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <p class="auth-footer-link">
+            No account? <a href="{{ url_for('auth.register') }}">Request Access</a>
+        </p>
+
+    </div>
 </div>
 
 {% endblock %}

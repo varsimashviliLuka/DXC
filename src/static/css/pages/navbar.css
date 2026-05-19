@@ -1,0 +1,234 @@
+/* ============================================================
+   DXC — Navbar
+   ============================================================ */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: rgba(5, 8, 12, 0.88);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid var(--dxc-border);
+}
+
+/* Thin accent line at very top */
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--dxc-blue), var(--dxc-cyan), transparent);
+    opacity: 0.6;
+}
+
+nav {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+/* ── Logo / Brand ──────────────────────────────────────────── */
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.nav-brand:hover { color: inherit; }
+
+.nav-logo-mark {
+    width: 34px;
+    height: 34px;
+    background: var(--dxc-blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(10, 132, 255, 0.35);
+}
+
+.nav-logo-mark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+}
+
+.nav-logo-mark svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.nav-logo-dxc {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--dxc-text);
+}
+
+.nav-logo-sub {
+    font-family: var(--font-ui);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+    margin-top: 1px;
+}
+
+/* ── Nav Links ─────────────────────────────────────────────── */
+.nav-home-link {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dxc-text-mid);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    transition: color var(--dur-fast) var(--ease),
+                background var(--dur-fast) var(--ease);
+}
+
+.nav-home-link:hover {
+    color: var(--dxc-text);
+    background: rgba(255,255,255,0.05);
+}
+
+/* ── Auth Area ─────────────────────────────────────────────── */
+#navbarAuth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#guestSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#userSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Style links inside navbar as buttons */
+#navbarAuth a {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    transition: all var(--dur-fast) var(--ease);
+    text-decoration: none;
+}
+
+#guestSection a:first-child {
+    color: var(--dxc-text-mid);
+    border-color: var(--dxc-border-mid);
+}
+
+#guestSection a:first-child:hover {
+    color: var(--dxc-text);
+    border-color: var(--dxc-border-hi);
+    background: rgba(255,255,255,0.04);
+}
+
+#guestSection a:last-child {
+    color: #fff;
+    background: var(--dxc-blue);
+    border-color: var(--dxc-blue);
+}
+
+#guestSection a:last-child:hover {
+    background: #1A90FF;
+    border-color: #1A90FF;
+    box-shadow: 0 0 18px var(--dxc-blue-glow);
+    transform: translateY(-1px);
+}
+
+/* User section links */
+#userSection a {
+    color: var(--dxc-text-mid);
+    border-color: transparent;
+}
+#userSection a:hover {
+    color: var(--dxc-text);
+    background: rgba(255,255,255,0.05);
+    border-color: var(--dxc-border);
+}
+
+/* Admin link special */
+#adminLink {
+    color: var(--dxc-cyan) !important;
+    border-color: rgba(0, 212, 255, 0.25) !important;
+}
+#adminLink:hover {
+    background: rgba(0, 212, 255, 0.08) !important;
+    border-color: rgba(0, 212, 255, 0.5) !important;
+}
+
+/* Logout Button */
+#logoutBtn {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--dxc-border-mid);
+    background: transparent;
+    color: var(--dxc-text-faint);
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease);
+}
+
+#logoutBtn:hover {
+    color: var(--dxc-red);
+    border-color: rgba(255, 45, 85, 0.4);
+    background: var(--dxc-red-dim);
+}
+
+/* ── Separator dot ─────────────────────────────────────────── */
+.nav-sep {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--dxc-border-hi);
+    flex-shrink: 0;
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-logo-sub { display: none; }
+    #navbarAuth a { padding: 7px 12px; }
+}

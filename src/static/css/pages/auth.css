@@ -1,0 +1,258 @@
+/* ============================================================
+   DXC — Auth Pages (Login & Register)
+   ============================================================ */
+
+.auth-page {
+    min-height: calc(100vh - 64px - 73px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+}
+
+/* Decorative corner lines */
+.auth-page::before,
+.auth-page::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.auth-page::before {
+    top: 60px;
+    left: 60px;
+    border-top: 1px solid var(--dxc-blue);
+    border-left: 1px solid var(--dxc-blue);
+}
+
+.auth-page::after {
+    bottom: 60px;
+    right: 60px;
+    border-bottom: 1px solid var(--dxc-blue);
+    border-right: 1px solid var(--dxc-blue);
+}
+
+/* ── Auth Card ─────────────────────────────────────────────── */
+.login-container,
+.register-container {
+    width: 100%;
+    max-width: 420px;
+    background: var(--dxc-surface);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-lg);
+    padding: 44px 40px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.5s var(--ease) both;
+}
+
+/* Top accent line */
+.login-container::before,
+.register-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--dxc-blue), var(--dxc-cyan));
+}
+
+/* Top-right glow */
+.login-container::after,
+.register-container::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(10,132,255,0.08), transparent 70%);
+    pointer-events: none;
+}
+
+/* ── Auth Header ───────────────────────────────────────────── */
+.auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.auth-brand-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--dxc-blue);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(10,132,255,0.35);
+}
+
+.auth-brand-mark svg {
+    width: 14px;
+    height: 14px;
+    fill: #fff;
+}
+
+.auth-brand-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 0.15em;
+    color: var(--dxc-text);
+}
+
+.login-container h1,
+.register-container h1 {
+    font-family: var(--font-ui);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--dxc-text);
+    margin-bottom: 6px;
+}
+
+.auth-subtitle {
+    font-size: 13px;
+    color: var(--dxc-text-faint);
+    margin-bottom: 32px;
+    font-weight: 300;
+}
+
+/* ── Form ──────────────────────────────────────────────────── */
+#loginForm,
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+#loginForm .input-wrap,
+#registerForm .input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+#loginForm label,
+#registerForm label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+}
+
+#loginForm input,
+#registerForm input {
+    background: var(--dxc-dark);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-sm);
+    color: var(--dxc-text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color var(--dur-fast) var(--ease),
+                box-shadow var(--dur-fast) var(--ease);
+    width: 100%;
+}
+
+#loginForm input::placeholder,
+#registerForm input::placeholder {
+    color: var(--dxc-text-faint);
+    font-style: italic;
+}
+
+#loginForm input:focus,
+#registerForm input:focus {
+    border-color: var(--dxc-blue);
+    box-shadow: 0 0 0 3px var(--dxc-blue-glow);
+}
+
+/* Submit button */
+#loginForm button[type="submit"],
+#registerForm button[type="submit"] {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 20px;
+    background: var(--dxc-blue);
+    border: 1px solid var(--dxc-blue);
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease);
+}
+
+#loginForm button[type="submit"]:hover,
+#registerForm button[type="submit"]:hover {
+    background: #1A90FF;
+    box-shadow: 0 0 24px var(--dxc-blue-glow), 0 4px 16px rgba(10,132,255,0.3);
+    transform: translateY(-1px);
+}
+
+#loginForm button[type="submit"]:active,
+#registerForm button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* ── Message ───────────────────────────────────────────────── */
+#message {
+    margin-top: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    min-height: 36px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    transition: all var(--dur-mid) var(--ease);
+}
+
+#message:not(:empty) {
+    background: var(--dxc-elevated);
+    border: 1px solid var(--dxc-border);
+}
+
+/* ── Auth footer link ──────────────────────────────────────── */
+.auth-footer-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--dxc-text-faint);
+}
+
+.auth-footer-link a {
+    color: var(--dxc-blue);
+    font-weight: 500;
+}
+
+/* ── Page wrap ─────────────────────────────────────────────── */
+body:has(.login-container),
+body:has(.register-container) {
+    /* extra background emphasis for auth pages */
+}
+
+@media (max-width: 480px) {
+    .login-container,
+    .register-container {
+        padding: 32px 24px;
+    }
+    .auth-page::before,
+    .auth-page::after { display: none; }
+}

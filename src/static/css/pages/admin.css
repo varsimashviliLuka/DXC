@@ -1,0 +1,322 @@
+/* ============================================================
+   DXC — Admin Panel
+   ============================================================ */
+
+.admin-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px;
+    animation: fadeIn 0.4s var(--ease) both;
+}
+
+/* ── Page Header ───────────────────────────────────────────── */
+.admin-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--dxc-border);
+}
+
+.admin-container > h1 {
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 0.08em;
+    color: var(--dxc-text);
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--dxc-border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.admin-container > h1::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dxc-cyan);
+    box-shadow: 0 0 10px var(--dxc-cyan);
+    animation: pulse-glow 2s infinite;
+    flex-shrink: 0;
+}
+
+/* ── Layout ────────────────────────────────────────────────── */
+.admin-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ── Users Panel ───────────────────────────────────────────── */
+.users-panel {
+    background: var(--dxc-surface);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.users-panel h2 {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--dxc-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.users-panel h2::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dxc-blue);
+    box-shadow: 0 0 6px var(--dxc-blue);
+}
+
+#usersList {
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+}
+
+/* User Card ─── */
+.user-card {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--dxc-border);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease),
+                border-left-color var(--dur-fast) var(--ease);
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.user-card:last-child { border-bottom: none; }
+
+.user-card:hover {
+    background: var(--dxc-elevated);
+    border-left-color: var(--dxc-blue);
+}
+
+.user-card.selected {
+    background: var(--dxc-elevated);
+    border-left-color: var(--dxc-cyan);
+}
+
+.user-card p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.user-card p strong {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--dxc-text);
+}
+
+.user-card p:not(:first-child) {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--dxc-text-faint);
+    margin-top: 2px;
+}
+
+/* ── Editor Panel ──────────────────────────────────────────── */
+.editor-panel {
+    background: var(--dxc-surface);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.editor-panel h2 {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--dxc-border);
+}
+
+.editor-panel-body {
+    padding: 24px;
+}
+
+/* Form inside editor ─── */
+#editUserForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
+}
+
+#editUserForm label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+    margin-top: 8px;
+    display: block;
+}
+
+#editUserForm input,
+#editUserForm select {
+    background: var(--dxc-dark);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-sm);
+    color: var(--dxc-text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 9px 12px;
+    outline: none;
+    width: 100%;
+    transition: border-color var(--dur-fast) var(--ease),
+                box-shadow var(--dur-fast) var(--ease);
+}
+
+#editUserForm input:focus,
+#editUserForm select:focus {
+    border-color: var(--dxc-blue);
+    box-shadow: 0 0 0 3px var(--dxc-blue-glow);
+}
+
+/* Hidden user ID */
+#editUserForm input[type="hidden"] { display: none; }
+
+/* Span the submit button full width */
+#editUserForm button[type="submit"] {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    padding: 11px 20px;
+    background: var(--dxc-blue);
+    border: 1px solid var(--dxc-blue);
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease);
+}
+
+#editUserForm button[type="submit"]:hover {
+    background: #1A90FF;
+    box-shadow: 0 0 20px var(--dxc-blue-glow);
+}
+
+/* ── Balance Section ───────────────────────────────────────── */
+.balance-section {
+    padding: 0 24px 24px;
+}
+
+.balance-section h3 {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dxc-text-faint);
+    margin-bottom: 16px;
+    padding-top: 8px;
+    border-top: 1px solid var(--dxc-border);
+}
+
+#balanceForm {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 10px;
+    align-items: end;
+}
+
+#balanceForm select,
+#balanceForm input {
+    background: var(--dxc-dark);
+    border: 1px solid var(--dxc-border);
+    border-radius: var(--radius-sm);
+    color: var(--dxc-text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    width: 100%;
+    transition: border-color var(--dur-fast) var(--ease),
+                box-shadow var(--dur-fast) var(--ease);
+}
+
+#balanceForm select:focus,
+#balanceForm input:focus {
+    border-color: var(--dxc-blue);
+    box-shadow: 0 0 0 3px var(--dxc-blue-glow);
+}
+
+#balanceForm button[type="submit"] {
+    padding: 10px 18px;
+    background: var(--dxc-elevated);
+    border: 1px solid var(--dxc-border-mid);
+    border-radius: var(--radius-sm);
+    color: var(--dxc-text);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--dur-fast) var(--ease);
+}
+
+#balanceForm button[type="submit"]:hover {
+    border-color: var(--dxc-green);
+    color: var(--dxc-green);
+    background: var(--dxc-green-dim);
+}
+
+/* ── Message ───────────────────────────────────────────────── */
+.admin-message-area {
+    padding: 0 24px 16px;
+}
+
+#message {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    transition: all var(--dur-mid) var(--ease);
+}
+
+#message:not(:empty) {
+    background: var(--dxc-elevated);
+    border: 1px solid var(--dxc-border);
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 960px) {
+    .admin-layout { grid-template-columns: 1fr; }
+    #usersList { max-height: 320px; }
+    #editUserForm { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .admin-container { padding: 28px 20px; }
+    #balanceForm { grid-template-columns: 1fr 1fr; }
+    #balanceForm button { grid-column: 1/-1; }
+}

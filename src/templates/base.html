@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}DXC{% endblock %} — Digital X Control</title>
 
-    <!-- CSS -->
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Global CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/navbar.css') }}">
 
     {% block head %}{% endblock %}
 </head>
 <body>
 
     <!-- Navigation -->
-{% include "navbar/navbar.html" %}
+    {% include "navbar/navbar.html" %}
 
     <!-- Main Content -->
     <main>
@@ -21,8 +28,16 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-        <p>&copy; Flask App</p>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-logo">DXC</span>
+                <span class="footer-tagline">Digital X Control</span>
+            </div>
+            <div class="footer-meta">
+                <p>&copy; 2025 DXC — Digital X Control. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 
     <!-- JavaScript -->

@@ -2,8 +2,11 @@
 
 {% block title %}Admin Panel{% endblock %}
 
-{% block content %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/admin.css') }}">
+{% endblock %}
 
+{% block content %}
 
 <div class="admin-container" style="display: none;" id="admin-container">
 
@@ -11,70 +14,69 @@
 
     <div class="admin-layout">
 
-        <!-- LEFT SIDE -->
+        <!-- ── LEFT: Users List ────────────────────────────── -->
         <div class="users-panel">
-
             <h2>Users</h2>
-
             <div id="usersList"></div>
-
         </div>
 
-        <!-- RIGHT SIDE -->
+        <!-- ── RIGHT: Editor ──────────────────────────────── -->
         <div class="editor-panel">
 
             <h2>User Editor</h2>
 
-            <form id="editUserForm">
+            <div class="editor-panel-body">
+                <form id="editUserForm">
 
-                <input type="hidden" id="userId">
+                    <input type="hidden" id="userId">
 
-                <label>Email</label>
-                <input type="email" id="email">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="user@example.com">
 
-                <label>Phone Number</label>
-                <input type="text" id="phone_number">
+                    <label for="phone_number">Phone Number</label>
+                    <input type="text" id="phone_number" placeholder="+000 000 000 000">
 
-                <label>Personal Number</label>
-                <input type="text" id="personal_number">
+                    <label for="personal_number">Personal Number</label>
+                    <input type="text" id="personal_number" placeholder="ID number">
 
-                <label>Active</label>
-                <select id="active">
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
-                </select>
+                    <label for="active">Account Status</label>
+                    <select id="active">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
 
-                <button type="submit">
-                    Save User
-                </button>
+                    <button type="submit">Save Changes</button>
 
-            </form>
+                </form>
+            </div>
 
             <hr>
 
-            <h3>Modify Balance</h3>
+            <!-- Balance -->
+            <div class="balance-section">
+                <h3>Modify Balance</h3>
 
-            <form id="balanceForm">
+                <form id="balanceForm">
 
-                <select id="operator">
-                    <option value="+">+</option>
-                    <option value="-">-</option>
-                </select>
+                    <select id="operator">
+                        <option value="+">+ Add</option>
+                        <option value="-">− Deduct</option>
+                    </select>
 
-                <input
-                    type="number"
-                    id="amount"
-                    placeholder="Amount"
-                    step="0.01"
-                >
+                    <input type="number"
+                           id="amount"
+                           placeholder="0.00"
+                           step="0.01"
+                           min="0">
 
-                <button type="submit">
-                    Update Balance
-                </button>
+                    <button type="submit">Apply</button>
 
-            </form>
+                </form>
+            </div>
 
-            <p id="message"></p>
+            <div class="admin-message-area">
+                <p id="message"></p>
+            </div>
 
         </div>
 

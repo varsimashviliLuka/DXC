@@ -2,9 +2,205 @@
 
 {% block title %}Home{% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/index.css') }}">
+{% endblock %}
+
 {% block content %}
 
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+    <div class="hero-inner">
+
+        <!-- Text -->
+        <div class="hero-content">
+            <div class="hero-eyebrow">Advanced Security Solutions</div>
+
+            <h1 class="hero-title">
+                Digital<br>
+                <span>X Control</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Enterprise-grade CCTV surveillance, electric access control,
+                and integrated security systems — engineered for reliability,
+                built for the modern world.
+            </p>
+
+            <div class="hero-cta">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Get Started</a>
+                <a href="#services" class="btn btn-outline">Our Services</a>
+            </div>
+        </div>
+
+        <!-- Visual: Fake camera grid card -->
+        <div class="hero-visual">
+            <div class="hero-cam-card">
+                <div class="cam-feed">
+                    <div class="cam-feed-grid">
+                        <!-- CAM 01 -->
+                        <div class="cam-feed-cell">
+                            <span class="cam-label">CAM 01</span>
+                            <span class="cam-status-dot"></span>
+                            <div class="cam-scan"></div>
+                        </div>
+                        <!-- CAM 02 -->
+                        <div class="cam-feed-cell">
+                            <span class="cam-label">CAM 02</span>
+                            <span class="cam-status-dot"></span>
+                        </div>
+                        <!-- CAM 03 -->
+                        <div class="cam-feed-cell">
+                            <span class="cam-label">CAM 03</span>
+                            <span class="cam-status-dot idle"></span>
+                        </div>
+                        <!-- CAM 04 -->
+                        <div class="cam-feed-cell">
+                            <span class="cam-label">CAM 04</span>
+                            <span class="cam-status-dot"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cam-meta">
+                    <div class="cam-meta-stat">
+                        <span>Channels</span>
+                        <span>4 / 16</span>
+                    </div>
+                    <div class="cam-meta-stat">
+                        <span>Recording</span>
+                        <span>24 / 7</span>
+                    </div>
+                    <span class="cam-online-badge">Live</span>
+                </div>
+            </div>
+
+            <!-- Floating badge -->
+            <div class="hero-badge">
+                <div class="hero-badge-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                              stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="hero-badge-text">
+                    <span>256-bit Encrypted</span>
+                    <span>End-to-end secure footage</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── Stats Bar ─────────────────────────────────────────────── -->
+<div class="stats-bar">
+    <div class="stats-bar-inner">
+        <div class="stat-item">
+            <div class="stat-number">1,200+</div>
+            <div class="stat-label">Cameras Installed</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">340+</div>
+            <div class="stat-label">Active Clients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime SLA</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">24 / 7</div>
+            <div class="stat-label">Monitoring</div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Services ──────────────────────────────────────────────── -->
+<section class="services" id="services">
+    <div class="services-inner">
+
+        <div class="section-header">
+            <div>
+                <div class="section-eyebrow">What We Offer</div>
+                <h2 class="section-title">Security Solutions</h2>
+            </div>
+        </div>
+
+        <div class="services-grid">
+
+            <!-- CCTV -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Camera icon -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M23 7l-7 5 7 5V7z"/>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                    </svg>
+                </div>
+                <div class="service-title">CCTV Systems</div>
+                <p class="service-desc">
+                    HD and 4K surveillance cameras with night vision, motion detection,
+                    and remote monitoring capabilities. Indoor, outdoor, and covert
+                    solutions for every environment.
+                </p>
+                <div class="service-tag">Learn more</div>
+            </div>
+
+            <!-- Electric Locks -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Lock icon -->
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+                <div class="service-title">Electric Locks</div>
+                <p class="service-desc">
+                    Smart electromagnetic and electromechanical locking systems with
+                    keycard, biometric, and remote access. Seamlessly integrated with
+                    your security infrastructure.
+                </p>
+                <div class="service-tag">Learn more</div>
+            </div>
+
+            <!-- Security Systems -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Shield icon -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <div class="service-title">Security Systems</div>
+                <p class="service-desc">
+                    Fully integrated alarm systems, motion sensors, and perimeter
+                    detection. Centrally managed through a single dashboard with
+                    instant incident alerts.
+                </p>
+                <div class="service-tag">Learn more</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA Banner ─────────────────────────────────────────────── -->
+<div class="cta-banner">
+    <div class="cta-banner-inner">
+        <div class="cta-banner-text">
+            <h2>Ready to Secure Your Premises?</h2>
+            <p>Create an account and get access to our full management portal.</p>
+        </div>
+        <div class="cta-banner-actions">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Create Account</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline">Sign In</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
+
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/index/index.js') }}"></script>
 {% endblock %}

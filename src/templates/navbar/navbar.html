@@ -1,54 +1,49 @@
 
 <header>
-
     <nav>
 
-        <a href="{{ url_for('index') }}">
-            Home
+        <!-- Brand -->
+        <a href="{{ url_for('index') }}" class="nav-brand">
+            <div class="nav-logo-mark">
+                <!-- Shield / security icon -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6L12 2z"/>
+                </svg>
+            </div>
+            <div class="nav-logo-text">
+                <span class="nav-logo-dxc">DXC</span>
+                <span class="nav-logo-sub">Digital X Control</span>
+            </div>
         </a>
 
-        <!-- hidden until auth check -->
+        <!-- Home link -->
+        <a href="{{ url_for('index') }}" class="nav-home-link">Home</a>
+
+        <!-- Auth area — hidden until check -->
         <div id="navbarAuth" style="display: none;">
 
             <!-- Guest -->
             <div id="guestSection">
-
-                <a href="{{ url_for('auth.login') }}">
-                    Login
-                </a>
-
-                <a href="{{ url_for('auth.register') }}">
-                    Register
-                </a>
-
+                <a href="{{ url_for('auth.login') }}">Login</a>
+                <a href="{{ url_for('auth.register') }}">Get Access</a>
             </div>
 
             <!-- Logged in -->
             <div id="userSection" style="display: none;">
 
                 <!-- User-only -->
-                <a id="profileLink"
-                   href="/user">
-                    My Profile
-                </a>
+                <a id="profileLink" href="/user">My Profile</a>
 
                 <!-- Admin-only -->
-                <a id="adminLink"
-                   href="/admin"
-                   style="display: none;">
-                    Admin Panel
-                </a>
+                <a id="adminLink" href="/admin" style="display: none;">Admin Panel</a>
 
-                <button id="logoutBtn">
-                    Logout
-                </button>
+                <button id="logoutBtn">Logout</button>
 
             </div>
 
         </div>
 
     </nav>
-
 </header>
 
 <script src="{{ url_for('static', filename='js/auth/logout.js') }}"></script>

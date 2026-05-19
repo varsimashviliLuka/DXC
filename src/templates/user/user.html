@@ -1,48 +1,50 @@
 {% extends "base.html" %}
 
-{% block title %}User Panel{% endblock %}
+{% block title %}My Profile{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/user.css') }}">
+{% endblock %}
 
 {% block content %}
 
 <div class="user-panel-container" id="user-panel-container" style="display: none;">
 
-    <h1>User Panel</h1>
+    <h1>My Profile</h1>
 
-    <!-- USER INFO -->
+    <!-- ── User Info ───────────────────────────────────────── -->
     <div class="user-info">
 
-        <h2>My Information</h2>
+        <h2>Account Information</h2>
 
         <p>
-            <strong>Email:</strong>
+            <strong>Email</strong>
             <span id="userEmail"></span>
         </p>
 
         <p>
-            <strong>Phone:</strong>
+            <strong>Phone</strong>
             <span id="userPhone"></span>
         </p>
 
         <p>
-            <strong>Personal Number:</strong>
+            <strong>Personal Number</strong>
             <span id="userPersonalNumber"></span>
         </p>
 
         <p>
-            <strong>Balance:</strong>
+            <strong>Balance</strong>
             <span id="userBalance"></span>
         </p>
 
         <p>
-            <strong>Status:</strong>
+            <strong>Status</strong>
             <span id="userStatus"></span>
         </p>
 
     </div>
 
-    <hr>
-
-    <!-- TRANSACTIONS -->
+    <!-- ── Transactions ────────────────────────────────────── -->
     <div class="transactions-section">
 
         <h2>Balance Transactions</h2>
