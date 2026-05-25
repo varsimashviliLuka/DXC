@@ -1,11 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>404 Not Found</h1>  
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}404 — Not Found{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/404.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="error-page">
+    <div class="error-inner">
+
+        <!-- Giant glitch number -->
+        <div class="error-code">404</div>
+
+        <!-- Status badge -->
+        <div class="error-status">
+            <span class="error-status-dot"></span>
+            Signal Lost — Resource Not Found
+        </div>
+
+        <!-- Heading -->
+        <h1 class="error-title">Access Point Offline</h1>
+
+        <!-- Description -->
+        <p class="error-desc">
+            The page you're looking for has been decommissioned, relocated,
+            or never existed. Our systems have logged this incident.
+        </p>
+
+        <!-- Terminal block -->
+        <div class="error-terminal">
+            <div class="error-terminal-bar">
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="terminal-dot"></span>
+                <span class="error-terminal-label">dxc-sys / route-resolver</span>
+            </div>
+            <div class="error-terminal-body">
+                <div class="term-line">
+                    <span class="term-prompt">$</span>
+                    <span class="term-cmd">resolve --path "{{ request.path if request else '/requested/path' }}"</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-out">ERR  route not found (HTTP 404)</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-out">ERR  no fallback handler registered</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-prompt">$</span>
+                    <span class="term-cmd">suggest --alternatives</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-out ok">  → /          (home)</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-out ok">  → /user      (profile)</span>
+                </div>
+                <div class="term-line">
+                    <span class="term-prompt">$</span>
+                    <span class="term-cursor"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="error-actions">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Return Home</a>
+            <a href="javascript:history.back()" class="btn btn-outline">Go Back</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -22,25 +22,13 @@ window.authUser = null;
 async function initializeNavbar() {
 
     try {
-
-        const response = await sendRequest(
-            "/api/user/myuser",
-            {
-                method: "GET"
-            }
-        );
-
-        if (!response.ok) {
+        const user = await getCurrentUser();
+        if (!user) {
             throw new Error("Unauthorized");
         }
 
-        const data = await response.json();
-
-        const user = data.user;
-
         // Save globally
         window.authUser = user;
-        console.log("Authenticated user:", user.role);
 
         // Show authenticated UI
         guestSection.style.display = "none";

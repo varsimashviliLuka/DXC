@@ -25,13 +25,20 @@ class Config(object):
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "default_jwt_secret_key")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(hours=12)
-    JWT_COOKIE_CSRF_PROTECT = False
-    JWT_TOKEN_LOCATION = ["headers","cookies"]
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_TOKEN_LOCATION = ["cookies"]
     JWT_COOKIE_SECURE = False # True in production (HTTPS)
     JWT_COOKIE_SAMESITE = "Strict"
+
     JWT_ACCESS_COOKIE_PATH = "/"
     JWT_REFRESH_COOKIE_PATH = "/api/auth/refresh"
-    JWT_REFRESH_COOKIE_NAME = "refresh_token"
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_REFRESH_COOKIE_NAME = "refresh_token_cookie"
+    JWT_ACCESS_CSRF_COOKIE_NAME = "csrf_access_token"
+    JWT_REFRESH_CSRF_COOKIE_NAME = "csrf_refresh_token"
+
+    JWT_ACCESS_CSRF_HEADER_NAME = "X-CSRF-TOKEN"
+    JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-TOKEN"
 
     AUTHORIZATION = {
         "JsonWebToken": {

@@ -27,6 +27,9 @@ def create_app(config=Config):
 
     @app.route('/')
     def index():
+        # under_construction
+        # return render_template('under_construction.html')
+        # index
         return render_template('index.html')
     
     register_extensions(app)

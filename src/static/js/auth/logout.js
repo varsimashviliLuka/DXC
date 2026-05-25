@@ -10,9 +10,6 @@ async function logout() {
         console.error(e);
     }
 
-    // Always clear frontend state
-    localStorage.removeItem("access_token");
-
     // redirect to login page
     window.location.reload();
 }

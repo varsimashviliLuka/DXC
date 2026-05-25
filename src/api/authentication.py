@@ -1,7 +1,15 @@
 from flask import jsonify
 from flask_restx import Resource
 
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    jwt_required,
+    get_jwt_identity,
+    set_access_cookies,
+    set_refresh_cookies,
+    unset_jwt_cookies,
+)
 from src.models import User
 from src.api.nsmodels import auth_ns, registration_parser, auth_parser
 
@@ -79,17 +87,10 @@ class AuthorizationApi(Resource):
             refresh_token = create_refresh_token(identity=user.uuid)
 
             response = jsonify({
-                "message": "წარმატებით გაიარეთ ავტორიზაცია.",
-                "access_token": access_token})
+                "message": "წარმატებით გაიარეთ ავტორიზაცია."})
             
-            response.set_cookie(
-                "refresh_token",
-                refresh_token,
-                httponly=True,
-                secure=False,      # True in production (HTTPS)
-                samesite="Strict",
-                path="/api/auth/refresh",
-                max_age=30 * 24 * 60 * 60)
+            set_refresh_cookies(response, refresh_token)
+            set_access_cookies(response, access_token)
 
             return response
         
@@ -101,7 +102,7 @@ class AuthorizationApi(Resource):
 @auth_ns.route('/refresh')
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class AccessTokenRefreshApi(Resource):
-    @jwt_required(refresh=True, locations=["cookies"])
+    @jwt_required(refresh=True)
     @auth_ns.doc(security='JsonWebToken')
     def post(self):
         '''JWT ტოკენის დარეფრეშება'''
@@ -109,18 +110,11 @@ class AccessTokenRefreshApi(Resource):
         access_token = create_access_token(identity=identity)
         refresh_token = create_refresh_token(identity=identity)
         response = jsonify({
-            "access_token": access_token
+            "message": "წარმატებით დარეფრეშულია ავტორიზაციის ტოკენი."
         })
 
-        response.set_cookie(
-            "refresh_token",
-            refresh_token,
-            httponly=True,
-            secure=False,
-            samesite="Strict",
-            path="/api/auth/refresh",
-            max_age=30 * 24 * 60 * 60
-        )
+        set_refresh_cookies(response, refresh_token)
+        set_access_cookies(response, access_token)
 
         return response
     
@@ -135,16 +129,14 @@ class CheckAuthApi(Resource):
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class LogoutApi(Resource):
 
+    @jwt_required()
     def post(self):
 
         response = jsonify({
             "message": "Logged out"
         })
 
-        response.delete_cookie(
-            "refresh_token",
-            path="/api/auth/refresh"
-        )
+        unset_jwt_cookies(response)
 
         return response
     

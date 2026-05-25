@@ -35,13 +35,6 @@ loginForm.addEventListener("submit", async (e) => {
         const data = await response.json();
 
         if (response.ok) {
-
-            // Save access token
-            localStorage.setItem(
-                "access_token",
-                data.access_token
-            );
-
             message.textContent =
                 "Login successful!";
 

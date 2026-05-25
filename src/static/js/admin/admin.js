@@ -15,16 +15,15 @@ const message =
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
-
-        const isAdmin = await isUserAdmin();
-
+        const currentUser = await getCurrentUser();
+        const isAdmin = currentUser?.role === "admin";
         if (!isAdmin) {
 
             window.location.href = "/";
 
             return;
         }
-        adminContainer = document.getElementById("admin-container");
+        const adminContainer = document.getElementById("admin-container");
         adminContainer.style.display = "block";
         await loadUsers();
     }
@@ -45,8 +44,6 @@ async function loadUsers() {
 
         const data = await response.json();
 
-        console.log(data);
-
         usersList.innerHTML = "";
 
         data.users.forEach(user => {
@@ -56,11 +53,20 @@ async function loadUsers() {
 
             userCard.classList.add("user-card");
 
-            userCard.innerHTML = `
-                <p><strong>${user.email}</strong></p>
-                <p>Balance: ${user.balance}</p>
-                <p>Role: ${user.role}</p>
-            `;
+            const email = document.createElement("p");
+            const emailStrong = document.createElement("strong");
+            emailStrong.textContent = user.email;
+            email.appendChild(emailStrong);
+
+            const balance = document.createElement("p");
+            balance.textContent = `Balance: ${user.balance}`;
+
+            const role = document.createElement("p");
+            role.textContent = `Role: ${user.role}`;
+
+            userCard.appendChild(email);
+            userCard.appendChild(balance);
+            userCard.appendChild(role);
 
             userCard.addEventListener(
                 "click",
@@ -135,8 +141,6 @@ editUserForm.addEventListener(
 
             const data = await response.json();
 
-            console.log(data);
-
             if (response.ok) {
 
                 message.textContent =
@@ -194,8 +198,6 @@ balanceForm.addEventListener(
             );
 
             const data = await response.json();
-
-            console.log(data);
 
             if (response.ok) {
 

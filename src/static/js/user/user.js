@@ -21,69 +21,40 @@ const transactionsList =
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
+        const user = await getCurrentUser();
 
-        const loggedIn = await isAuthenticated();
+        if (!user) {
+            window.location.href = "/";
+            return;
+        }
 
-     if (!loggedIn) {
-
-        window.location.href = "/";
-    }else{
-        userPanelContainer = document.getElementById("user-panel-container");
+        const userPanelContainer = document.getElementById("user-panel-container");
         userPanelContainer.style.display = "block";
 
-        await loadUser();
-
+        populateUserInfo(user);
         await loadTransactions();
-    }}
+    }
 );
 
 
 // LOAD USER INFO
-async function loadUser() {
+function populateUserInfo(user) {
+    userEmail.textContent =
+        user.email;
 
-    try {
+    userPhone.textContent =
+        user.phone_number;
 
-        const response = await sendRequest(
-            "/api/user/myuser",
-            {
-                method: "GET"
-            }
-        );
+    userPersonalNumber.textContent =
+        user.personal_number;
 
-        const data = await response.json();
+    userBalance.textContent =
+        user.balance;
 
-        console.log("User:", data);
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error || "Failed to load user."
-            );
-        }
-
-        const user = data.user;
-
-        userEmail.textContent =
-            user.email;
-
-        userPhone.textContent =
-            user.phone_number;
-
-        userPersonalNumber.textContent =
-            user.personal_number;
-
-        userBalance.textContent =
-            user.balance;
-
-        userStatus.textContent =
-            user.active
-                ? "Active"
-                : "Inactive";
-
-    } catch (error) {
-
-        console.error(error);
-    }
+    userStatus.textContent =
+        user.active
+            ? "Active"
+            : "Inactive";
 }
 
 
@@ -101,8 +72,6 @@ async function loadTransactions() {
 
         const data = await response.json();
 
-        console.log("Transactions:", data);
-
         transactionsList.innerHTML = "";
 
         if (!response.ok) {
@@ -117,7 +86,6 @@ async function loadTransactions() {
         }
 
         data.transactions.forEach(transaction => {
-
             const transactionCard =
                 document.createElement("div");
 
@@ -125,25 +93,21 @@ async function loadTransactions() {
                 "transaction-card"
             );
 
-            transactionCard.innerHTML = `
+            const operation = document.createElement("p");
+            operation.textContent = `Operation: ${transaction.operator}`;
 
-                <p>
-                    <strong>Operation:</strong>
-                    ${transaction.operator}
-                </p>
+            const amount = document.createElement("p");
+            amount.textContent = `Amount: ${transaction.amount}`;
 
-                <p>
-                    <strong>Amount:</strong>
-                    ${transaction.amount}
-                </p>
+            const timestamp = document.createElement("p");
+            timestamp.textContent = `Date: ${transaction.timestamp}`;
 
-                <p>
-                    <strong>Date:</strong>
-                    ${transaction.timestamp}
-                </p>
+            const separator = document.createElement("hr");
 
-                <hr>
-            `;
+            transactionCard.appendChild(operation);
+            transactionCard.appendChild(amount);
+            transactionCard.appendChild(timestamp);
+            transactionCard.appendChild(separator);
 
             transactionsList.appendChild(
                 transactionCard

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Under Construction{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/under_construction.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="construction-page">
+    <div class="construction-inner">
+
+        <!-- ── Left: Content ──────────────────────────────── -->
+        <div class="construction-content">
+
+            <div class="construction-eyebrow">
+                <span class="construction-eyebrow-dot"></span>
+                System Deployment In Progress
+            </div>
+
+            <h1 class="construction-title">
+                Under<br>
+                <span>Construction</span>
+            </h1>
+
+            <p class="construction-desc">
+                Our engineers are actively deploying this section of the
+                DXC platform. Check back shortly — we're moving fast.
+            </p>
+
+            <!-- Progress -->
+            <div class="construction-progress">
+
+                <div class="progress-label">
+                    <span>Deployment Progress</span>
+                    <span>72%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: 72%;"></div>
+                </div>
+
+                <!-- Tasks -->
+                <div class="progress-tasks">
+
+                    <div class="task-item done">
+                        <div class="task-check">
+                            <svg viewBox="0 0 12 12">
+                                <polyline points="2,6 5,9 10,3"/>
+                            </svg>
+                        </div>
+                        <span>Core infrastructure provisioned</span>
+                    </div>
+
+                    <div class="task-item done">
+                        <div class="task-check">
+                            <svg viewBox="0 0 12 12">
+                                <polyline points="2,6 5,9 10,3"/>
+                            </svg>
+                        </div>
+                        <span>Authentication & access control</span>
+                    </div>
+
+                    <div class="task-item done">
+                        <div class="task-check">
+                            <svg viewBox="0 0 12 12">
+                                <polyline points="2,6 5,9 10,3"/>
+                            </svg>
+                        </div>
+                        <span>Camera feed integration</span>
+                    </div>
+
+                    <div class="task-item active">
+                        <div class="task-check">
+                            <svg viewBox="0 0 12 12">
+                                <polyline points="2,6 5,9 10,3"/>
+                            </svg>
+                        </div>
+                        <span>UI module assembly</span>
+                    </div>
+
+                    <div class="task-item">
+                        <div class="task-check"></div>
+                        <span>Final QA & deployment</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="construction-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Return Home</a>
+                <a href="javascript:history.back()" class="btn btn-outline">Go Back</a>
+            </div>
+
+        </div>
+
+        <!-- ── Right: Radar Visual ─────────────────────────── -->
+        <div class="construction-visual">
+
+            <div class="radar-widget">
+                <span class="radar-label">System Scan — Active</span>
+
+                <!-- SVG Radar -->
+                <svg class="radar-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+                    <!-- Grid cross lines -->
+                    <line x1="100" y1="10" x2="100" y2="190" class="radar-crosshair"/>
+                    <line x1="10"  y1="100" x2="190" y2="100" class="radar-crosshair"/>
+
+                    <!-- Concentric rings -->
+                    <circle cx="100" cy="100" r="85" class="radar-ring"/>
+                    <circle cx="100" cy="100" r="62" class="radar-ring-inner"/>
+                    <circle cx="100" cy="100" r="40" class="radar-ring"/>
+                    <circle cx="100" cy="100" r="18" class="radar-ring-inner"/>
+
+                    <!-- Sweep group -->
+                    <g class="radar-sweep">
+                        <!-- Sweep gradient pie slice -->
+                        <path d="M100,100 L100,15 A85,85 0 0,1 183,145 Z"
+                              fill="url(#sweepGrad)" opacity="0.5"/>
+                        <!-- Sweep leading edge -->
+                        <line x1="100" y1="100" x2="100" y2="15"
+                              stroke="rgba(255,184,0,0.7)" stroke-width="1.5"/>
+                        <defs>
+                            <radialGradient id="sweepGrad" cx="100" cy="100" r="85"
+                                            gradientUnits="userSpaceOnUse">
+                                <stop offset="0%"   stop-color="rgba(255,184,0,0.25)"/>
+                                <stop offset="100%" stop-color="rgba(255,184,0,0)"/>
+                            </radialGradient>
+                        </defs>
+                    </g>
+
+                    <!-- Blips -->
+                    <circle class="radar-blip" cx="138" cy="58"  r="3.5" fill="#FFB800"/>
+                    <circle class="radar-blip" cx="68"  cy="130" r="3"   fill="#FFB800" style="animation-delay:0.4s"/>
+                    <circle class="radar-blip" cx="155" cy="118" r="2.5" fill="#00D4FF" style="animation-delay:1.1s"/>
+
+                    <!-- Center dot -->
+                    <circle cx="100" cy="100" r="3" fill="rgba(255,184,0,0.6)"/>
+                    <circle cx="100" cy="100" r="6" fill="none" stroke="rgba(255,184,0,0.2)" stroke-width="1"/>
+
+                </svg>
+
+                <!-- Stats row -->
+                <div class="radar-stats">
+                    <div class="radar-stat">
+                        <span class="radar-stat-val">3</span>
+                        <span class="radar-stat-lbl">Signals</span>
+                    </div>
+                    <div class="radar-stat">
+                        <span class="radar-stat-val">Active</span>
+                        <span class="radar-stat-lbl">State</span>
+                    </div>
+                    <div class="radar-stat">
+                        <span class="radar-stat-val">72%</span>
+                        <span class="radar-stat-lbl">Complete</span>
+                    </div>
+                    <div class="radar-stat">
+                        <span class="radar-stat-val">0 ERR</span>
+                        <span class="radar-stat-lbl">Errors</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ETA card -->
+            <div class="eta-card">
+                <span class="eta-label">Estimated Completion</span>
+                <span class="eta-value">Coming Soon</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

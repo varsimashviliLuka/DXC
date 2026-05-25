@@ -1,64 +1,98 @@
 // static/js/utils/api.js
+let refreshRequest = null;
+let authUserRequest = null;
+let authUserCache = undefined;
 
-async function sendRequest(url, options = {}) {
+function getCookieValue(name) {
+    const cookieRow = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(`${name}=`));
 
-    // Get stored access token
-    let accessToken = localStorage.getItem("access_token");
+    if (!cookieRow) {
+        return null;
+    }
 
-    // Default headers
+    return decodeURIComponent(cookieRow.split("=")[1]);
+}
+
+function isUnsafeMethod(method) {
+    return !["GET", "HEAD", "OPTIONS"].includes(method);
+}
+
+function shouldAttemptRefresh(url) {
+    const noRefreshPaths = new Set([
+        "/api/auth/login",
+        "/api/auth/registration",
+        "/api/auth/refresh"
+    ]);
+
+    return !noRefreshPaths.has(url);
+}
+
+function hasRefreshSession() {
+    return Boolean(getCookieValue("csrf_refresh_token"));
+}
+
+function buildHeaders(options, csrfCookieName) {
     const headers = {
-        "Content-Type": "application/json",
         ...(options.headers || {})
     };
 
-    // Add Authorization header if token exists
-    if (accessToken) {
-        headers["Authorization"] = `Bearer ${accessToken}`;
+    const method = (options.method || "GET").toUpperCase();
+    const isJsonBody = options.body !== undefined && !(options.body instanceof FormData);
+
+    if (isJsonBody && !headers["Content-Type"]) {
+        headers["Content-Type"] = "application/json";
     }
 
-    // First request
+    if (isUnsafeMethod(method) && !headers["X-CSRF-TOKEN"]) {
+        const csrfToken = getCookieValue(csrfCookieName);
+        if (csrfToken) {
+            headers["X-CSRF-TOKEN"] = csrfToken;
+        }
+    }
+
+    return headers;
+}
+
+async function refreshAccessToken() {
+    if (!refreshRequest) {
+        refreshRequest = (async () => {
+            const refreshResponse = await fetch("/api/auth/refresh", {
+                method: "POST",
+                headers: buildHeaders({ method: "POST" }, "csrf_refresh_token"),
+                credentials: "include"
+            });
+
+            if (!refreshResponse.ok) {
+                throw new Error("Session expired");
+            }
+        })().finally(() => {
+            refreshRequest = null;
+        });
+    }
+
+    return refreshRequest;
+}
+
+async function sendRequest(url, options = {}) {
     let response = await fetch(url, {
         ...options,
-        headers,
+        headers: buildHeaders(options, "csrf_access_token"),
         credentials: "include"
     });
 
-    // If access token expired -> try refresh
-    if (response.status === 401) {
-
-        const refreshResponse = await fetch("/api/auth/refresh", {
-            method: "POST",
-            credentials: "include"
-        });
-
-        // Refresh failed -> logout user
-        if (!refreshResponse.ok) {
-
-            localStorage.removeItem("access_token");
-
-
-            throw new Error("Session expired");
-        }
-
-        // Save new access token
-        const refreshData = await refreshResponse.json();
-
-        localStorage.setItem(
-            "access_token",
-            refreshData.access_token
-        );
-
-        accessToken = refreshData.access_token;
-
-        // Retry original request
-        const retryHeaders = {
-            ...headers,
-            Authorization: `Bearer ${accessToken}`
-        };
+    // Access token expired -> refresh using refresh cookie + CSRF header.
+    if (
+        response.status === 401 &&
+        shouldAttemptRefresh(url) &&
+        hasRefreshSession()
+    ) {
+        await refreshAccessToken();
 
         response = await fetch(url, {
             ...options,
-            headers: retryHeaders,
+            headers: buildHeaders(options, "csrf_access_token"),
             credentials: "include"
         });
     }
@@ -66,13 +100,55 @@ async function sendRequest(url, options = {}) {
     return response;
 }
 
+async function getCurrentUser(forceReload = false) {
+    if (!forceReload) {
+        if (authUserCache !== undefined) {
+            return authUserCache;
+        }
+
+        if (authUserRequest) {
+            return authUserRequest;
+        }
+    }
+
+    authUserRequest = (async () => {
+        try {
+            const response = await sendRequest(
+                "/api/user/myuser",
+                {
+                    method: "GET"
+                }
+            );
+
+            if (!response.ok) {
+                authUserCache = null;
+                return null;
+            }
+
+            const data = await response.json();
+            authUserCache = data.user || null;
+
+            return authUserCache;
+        } catch (error) {
+            authUserCache = null;
+            return null;
+        } finally {
+            authUserRequest = null;
+        }
+    })();
+
+    return authUserRequest;
+}
+
+function clearAuthUserCache() {
+    authUserCache = undefined;
+    authUserRequest = null;
+}
+
 async function isAuthenticated() {
     try {
-        const response = await sendRequest(
-            "/api/auth/check"
-        );
-
-        return response.ok;
+        const user = await getCurrentUser();
+        return Boolean(user);
     } catch (error) {
         console.error("Error checking authentication status:", error);
         return false;
@@ -81,12 +157,8 @@ async function isAuthenticated() {
 
 async function isUserAdmin() {
     try {
-        const response = await sendRequest(
-            "/api/auth/isAdmin"
-        );
-
-        const data = await response.json();
-        return data.is_admin === true;
+        const user = await getCurrentUser();
+        return user?.role === "admin";
     } catch (error) {
         console.error("Error checking admin status:", error);
         return false;
