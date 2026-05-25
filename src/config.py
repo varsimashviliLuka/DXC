@@ -37,14 +37,19 @@ class Config(object):
     JWT_ACCESS_CSRF_COOKIE_NAME = "csrf_access_token"
     JWT_REFRESH_CSRF_COOKIE_NAME = "csrf_refresh_token"
 
-    JWT_ACCESS_CSRF_HEADER_NAME = "X-CSRF-TOKEN"
-    JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-TOKEN"
+    JWT_ACCESS_CSRF_HEADER_NAME = "X-CSRF-ACCESS"
+    JWT_REFRESH_CSRF_HEADER_NAME = "X-CSRF-REFRESH"
 
     AUTHORIZATION = {
-        "JsonWebToken": {
+        "CsrfAccess": {
             "type": "apiKey",
             "in": "header",
-            "name": "Authorization"
+            "name": "X-CSRF-ACCESS"
+        },
+        "CsrfRefresh": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-CSRF-REFRESH"
         }
     }
 

@@ -21,11 +21,15 @@ import random
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class RegistrationApi(Resource):
     @auth_ns.doc(parser=registration_parser)
-    @auth_ns.doc(security='JsonWebToken')
     def post(self):
         '''მომხმარებლის რეგისტრაცია'''
 
         args = registration_parser.parse_args()
+        normalized_personal_number = ''.join(ch for ch in args["personal_number"] if ch.isdigit())
+        normalized_phone_number = ''.join(ch for ch in args["phone_number"] if ch.isdigit())
+
+        if len(normalized_phone_number) == 12 and normalized_phone_number.startswith("995"):
+            normalized_phone_number = normalized_phone_number[3:]
     
         # Validate password length and pattern
         if args["password"] != args["passwordRepeat"]:
@@ -37,16 +41,16 @@ class RegistrationApi(Resource):
         if User.query.filter_by(email=args["email"]).first():
             return {"error": "ელ.ფოსტის მისამართი უკვე რეგისტრირებულია."}, 400
         
-        if User.query.filter_by(personal_number=args["personal_number"]).first():
+        if User.query.filter_by(personal_number=normalized_personal_number).first():
             return {"error": "პირადი ნომერი უკვე რეგისტრირებულია."}, 400
         
-        if len(args["personal_number"]) != 11 or not args["personal_number"].isdigit():
+        if len(normalized_personal_number) != 11:
             return {"error": "პირადი ნომერი უნდა შედგებოდეს 11 ციფრისგან."}, 400
         
-        if User.query.filter_by(phone_number=args["phone_number"]).first():
+        if User.query.filter_by(phone_number=normalized_phone_number).first():
             return {"error": "ტელეფონის ნომერი უკვე რეგისტრირებულია."}, 400
         
-        if len(args["phone_number"]) != 9 or not args["phone_number"].isdigit():
+        if len(normalized_phone_number) != 9:
             return {"error": "ტელეფონის ნომერი უნდა შედგებოდეს 9 ციფრისგან."}, 400
         while True:
             identification_number = str(random.randint(100000, 999999))
@@ -56,8 +60,8 @@ class RegistrationApi(Resource):
         new_user = User(
             email=args["email"],
             password=args["password"],
-            phone_number=args["phone_number"],
-            personal_number=args["personal_number"],
+            phone_number=normalized_phone_number,
+            personal_number=normalized_personal_number,
             identification_number=identification_number
         )
 
@@ -103,7 +107,7 @@ class AuthorizationApi(Resource):
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class AccessTokenRefreshApi(Resource):
     @jwt_required(refresh=True)
-    @auth_ns.doc(security='JsonWebToken')
+    @auth_ns.doc(security='CsrfRefresh')
     def post(self):
         '''JWT ტოკენის დარეფრეშება'''
         identity = get_jwt_identity()
@@ -117,19 +121,14 @@ class AccessTokenRefreshApi(Resource):
         set_access_cookies(response, access_token)
 
         return response
-    
-@auth_ns.route('/check')
-@auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
-class CheckAuthApi(Resource):
-    @jwt_required()
-    def get(self):
-        return {"message": "მომხმარებელი ავტორიზებულია."}, 200
+
 
 @auth_ns.route('/logout')
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class LogoutApi(Resource):
 
     @jwt_required()
+    @auth_ns.doc(security='CsrfAccess')
     def post(self):
 
         response = jsonify({
@@ -140,14 +139,3 @@ class LogoutApi(Resource):
 
         return response
     
-@auth_ns.route('/isAdmin')
-@auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
-class IsAdminApi(Resource):
-    @jwt_required()
-    def get(self):
-        identity = get_jwt_identity()
-        user = User.query.filter_by(uuid=identity).first()
-        if user and user.role == 'admin':
-            return {"is_admin": True}, 200
-        else:
-            return {"is_admin": False}, 200

@@ -15,7 +15,11 @@ jwt = JWTManager()
 api = Api(
     title='Flask-RestX API',
     version='1.0',
-    description='Starting poingt for Flask-RestX API',
+    description=(
+        'Cookie-based JWT API with CSRF protection. '
+        'Use /api/auth/login first to receive cookies, then send '
+        'X-CSRF-ACCESS for protected endpoints and X-CSRF-REFRESH for /api/auth/refresh.'
+    ),
     authorizations=Config.AUTHORIZATION,
     doc='/api'
 )

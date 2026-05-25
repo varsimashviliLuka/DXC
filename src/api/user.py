@@ -10,7 +10,7 @@ from src.api.nsmodels import user_ns, user_parser, update_user_parser, balance_p
 class UserApi(Resource):
     @jwt_required()
     @user_ns.doc(parser=user_parser)
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     def post(self):
         '''კონკრეტული მომხმარებლის შესახებ ინფორმაციის მიღება'''
 
@@ -28,7 +28,7 @@ class UserApi(Resource):
         return {'user': user.generateJson()}, 200
     
     @jwt_required()
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     def get(self):
         '''ყველა მომხმარებლის შესახებ ინფორმაციის მიღება'''
 
@@ -43,7 +43,7 @@ class UserApi(Resource):
         return {'users': users_data}, 200
     
     @jwt_required()
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     @user_ns.doc(parser=update_user_parser)
     def put(self):
         '''მომხმარებლის რედაქტირება'''
@@ -121,7 +121,7 @@ class UserApi(Resource):
         return {'user': user.generateJson()}, 200
     
     @jwt_required()
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     @user_ns.doc(parser=balance_parser)
     def patch(self):
         '''მომხმარებლის ბალანსის რედაქტირება'''
@@ -157,7 +157,7 @@ class UserApi(Resource):
 @user_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class MyUserApi(Resource):
     @jwt_required()
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     def get(self):
         '''ავტორიზებული მომხმარებლის შესახებ ინფორმაციის მიღება'''
 
@@ -178,7 +178,7 @@ class MyUserApi(Resource):
 @user_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 401: 'JWT Token Expires', 403: 'Forbidden', 404: 'Not Found'})
 class MyUserTransactionsApi(Resource):
     @jwt_required()
-    @user_ns.doc(security='JsonWebToken')
+    @user_ns.doc(security='CsrfAccess')
     def get(self):
         '''ავტორიზებული მომხმარებლის ბალანსის ტრანზაქციების მიღება'''
 

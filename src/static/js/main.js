@@ -33,7 +33,7 @@ function hasRefreshSession() {
     return Boolean(getCookieValue("csrf_refresh_token"));
 }
 
-function buildHeaders(options, csrfCookieName) {
+function buildHeaders(options, csrfCookieName, csrfHeaderName) {
     const headers = {
         ...(options.headers || {})
     };
@@ -45,10 +45,10 @@ function buildHeaders(options, csrfCookieName) {
         headers["Content-Type"] = "application/json";
     }
 
-    if (isUnsafeMethod(method) && !headers["X-CSRF-TOKEN"]) {
+    if (isUnsafeMethod(method) && !headers[csrfHeaderName]) {
         const csrfToken = getCookieValue(csrfCookieName);
         if (csrfToken) {
-            headers["X-CSRF-TOKEN"] = csrfToken;
+            headers[csrfHeaderName] = csrfToken;
         }
     }
 
@@ -60,7 +60,7 @@ async function refreshAccessToken() {
         refreshRequest = (async () => {
             const refreshResponse = await fetch("/api/auth/refresh", {
                 method: "POST",
-                headers: buildHeaders({ method: "POST" }, "csrf_refresh_token"),
+                headers: buildHeaders({ method: "POST" }, "csrf_refresh_token", "X-CSRF-REFRESH"),
                 credentials: "include"
             });
 
@@ -78,7 +78,7 @@ async function refreshAccessToken() {
 async function sendRequest(url, options = {}) {
     let response = await fetch(url, {
         ...options,
-        headers: buildHeaders(options, "csrf_access_token"),
+        headers: buildHeaders(options, "csrf_access_token", "X-CSRF-ACCESS"),
         credentials: "include"
     });
 
@@ -92,7 +92,7 @@ async function sendRequest(url, options = {}) {
 
         response = await fetch(url, {
             ...options,
-            headers: buildHeaders(options, "csrf_access_token"),
+            headers: buildHeaders(options, "csrf_access_token", "X-CSRF-ACCESS"),
             credentials: "include"
         });
     }
